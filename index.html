@@ -104,5 +104,35 @@
             </div>
         </div>
     </div>
+    
+    <div class="order-panel" id="orderPanel">
+        <div class="order-panel-header">
+            Мой заказ
+            <button class="order-panel-close" id="orderPanelClose">✕</button>
+        </div>
+
+        <div class="order-items" id="orderItems">
+            <div class="empty-order">Заказ пуст</div>
+        </div>
+
+        <div class="order-summary">
+            <div class="order-total-row">
+                <span>Товаров:</span>
+                <span id="totalItems">0</span>
+            </div>
+            <div class="order-total-row">
+                <span>Скидка 10%:</span>
+                <span id="discountAmount">0 ₽</span>
+            </div>
+            <div class="order-total-final">
+                <span>Итого:</span>
+                <span id="totalPrice">0 ₽</span>
+            </div>
+        </div>
+
+        <div class="order-checkout">
+            <button class="checkout-btn" id="checkoutBtn">Оформить заказ</button>
+        </div>
+    </div>
 </body>
 </html>

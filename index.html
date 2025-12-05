@@ -53,5 +53,56 @@
 
         <div class="coffee-grid" id="coffeeGrid"></div>
     </main>
+
+    <div class="detail-page" id="detailPage">
+        <div class="detail-modal">
+            <span class="detail-close" id="detailClose">&times;</span>
+            
+            <img src="" alt="" class="detail-image" id="detailImage">
+            <h2 class="detail-title" id="detailTitle"></h2>
+            <p class="detail-desc" id="detailDesc"></p>
+
+            <div class="detail-section">
+                <div class="detail-section-title">Размер</div>
+                <div class="size-buttons" id="sizeButtons"></div>
+            </div>
+
+            <div class="detail-section">
+                <div class="detail-section-title">Тип молока</div>
+                <div class="milk-buttons" id="milkButtons"></div>
+            </div>
+
+            <div class="detail-section">
+                <div class="detail-section-title">Дополнительно</div>
+                <div>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                        <input type="checkbox" id="sugarCheckbox"> Сахар (+20 ₽)
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" id="cinnamon"> Корица (+30 ₽)
+                    </label>
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <div class="detail-section-title">Количество</div>
+                <div class="quantity-control">
+                    <button class="quantity-btn" id="quantityMinus">−</button>
+                    <div class="quantity-value" id="quantityValue">1</div>
+                    <button class="quantity-btn" id="quantityPlus">+</button>
+                </div>
+            </div>
+
+            <div class="detail-price">
+                <span>Итого: </span>
+                <span id="detailPrice">0</span> ₽
+            </div>
+
+            <div class="detail-actions">
+                <button class="btn-primary" id="addToOrderBtn">Добавить в заказ</button>
+                <button class="btn-secondary" id="detailCancelBtn">Отмена</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

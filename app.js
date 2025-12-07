@@ -238,3 +238,20 @@ document.addEventListener('DOMContentLoaded', () => {
     filterAndRenderCoffee();
     updateOrderDisplay();
 });
+
+function setupEventListeners() {
+    document.querySelectorAll('.coffee-type-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.coffee-type-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedType = btn.dataset.type;
+            filterAndRenderCoffee();
+        });
+    });
+
+    document.getElementById('searchInput').addEventListener('input', e => {
+        filterAndRenderCoffee(e.target.value);
+    });
+
+    document.getElementById('burgerMenu').addEventListener('click', toggleBurgerMenu);
+}

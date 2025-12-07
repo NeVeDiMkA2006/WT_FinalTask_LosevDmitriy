@@ -152,3 +152,82 @@ function calculateDetailPrice() {
     const total = price * currentQuantity;
     document.getElementById('detailPrice').textContent = total;
 }
+
+function addToOrder() {
+    const orderItem = {
+        id: Date.now(),
+        coffeeId: currentCoffee.id,
+        name: currentCoffee.name,
+        size: currentSize,
+        milk: currentMilk,
+        extras: { ...currentExtras },
+        quantity: currentQuantity,
+        price: parseInt(document.getElementById('detailPrice').textContent)
+    };
+
+    order.push(orderItem);
+    saveOrderToStorage();
+    updateOrderDisplay();
+    closeDetail();
+    alert(`${currentCoffee.name} добавлено в заказ!`);
+}
+
+function updateOrderDisplay() {
+    const totalItems = order.reduce((sum, item) => sum + item.quantity, 0);
+    const totalPrice = order.reduce((sum, item) => sum + item.price, 0);
+    const discount = Math.floor(totalPrice * 0.1);
+    const finalPrice = totalPrice - discount;
+
+    document.getElementById('orderCountDisplay').textContent = totalItems;
+
+    if (order.length === 0) {
+        document.getElementById('orderItems').innerHTML = '<div class="empty-order">Заказ пуст</div>';
+    } else {
+        document.getElementById('orderItems').innerHTML = order.map(item => `
+            <div class="order-item">
+                <div class="order-item-info">
+                    <div class="order-item-name">${item.name}</div>
+                    <div class="order-item-details">
+                        ${item.size} | ${item.milk}
+                        ${item.extras.sugar ? '| Сахар' : ''}
+                        ${item.extras.cinnamon ? '| Корица' : ''}
+                    </div>
+                    <div class="order-item-details">Кол-во: ${item.quantity}</div>
+                    <div class="order-item-price">${item.price} ₽</div>
+                </div>
+                <button class="order-item-remove" data-id="${item.id}">✕</button>
+            </div>
+        `).join('');
+
+        document.querySelectorAll('.order-item-remove').forEach(btn => {
+            btn.addEventListener('click', e => {
+                const id = e.target.dataset.id;
+                order = order.filter(item => item.id != id);
+                saveOrderToStorage();
+                updateOrderDisplay();
+            });
+        });
+    }
+
+    document.getElementById('totalItems').textContent = totalItems;
+    document.getElementById('discountAmount').textContent = discount + ' ₽';
+    document.getElementById('totalPrice').textContent = finalPrice + ' ₽';
+}
+
+function checkout() {
+    if (order.length === 0) {
+        alert('Заказ пуст!');
+        return;
+    }
+
+    const totalPrice = order.reduce((sum, item) => sum + item.price, 0);
+    const discount = Math.floor(totalPrice * 0.1);
+    const finalPrice = totalPrice - discount;
+
+    alert(`Спасибо за заказ!\nИтого: ${finalPrice} ₽\nВаш заказ принят!`);
+
+    order = [];
+    saveOrderToStorage();
+    updateOrderDisplay();
+    document.getElementById('orderPanel').classList.remove('active');
+}

@@ -231,3 +231,10 @@ function checkout() {
     updateOrderDisplay();
     document.getElementById('orderPanel').classList.remove('active');
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadOrderFromStorage();
+    setupEventListeners();
+    filterAndRenderCoffee();
+    updateOrderDisplay();
+});

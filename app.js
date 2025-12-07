@@ -255,3 +255,73 @@ function setupEventListeners() {
 
     document.getElementById('burgerMenu').addEventListener('click', toggleBurgerMenu);
 }
+
+function setupEventListeners() {
+    document.querySelectorAll('.coffee-type-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.coffee-type-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedType = btn.dataset.type;
+            filterAndRenderCoffee();
+        });
+    });
+
+    document.getElementById('searchInput').addEventListener('input', e => {
+        filterAndRenderCoffee(e.target.value);
+    });
+
+    document.getElementById('burgerMenu').addEventListener('click', toggleBurgerMenu);
+
+    document.getElementById('detailClose').addEventListener('click', closeDetail);
+    document.getElementById('detailCancelBtn').addEventListener('click', closeDetail);
+    document.getElementById('detailPage').addEventListener('click', e => {
+        if (e.target === document.getElementById('detailPage')) closeDetail();
+    });
+
+    document.getElementById('sizeButtons').addEventListener('click', e => {
+        if (e.target.classList.contains('size-btn')) {
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            currentSize = e.target.dataset.size;
+            calculateDetailPrice();
+        }
+    });
+
+    document.getElementById('milkButtons').addEventListener('click', e => {
+        if (e.target.classList.contains('milk-btn')) {
+            document.querySelectorAll('.milk-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            currentMilk = e.target.dataset.milk;
+            calculateDetailPrice();
+        }
+    });
+
+    document.getElementById('sugarCheckbox').addEventListener('change', e => {
+        currentExtras.sugar = e.target.checked;
+        calculateDetailPrice();
+    });
+
+    document.getElementById('cinnamon').addEventListener('change', e => {
+        currentExtras.cinnamon = e.target.checked;
+        calculateDetailPrice();
+    });
+
+    document.getElementById('quantityPlus').addEventListener('click', () => {
+        currentQuantity++;
+        document.getElementById('quantityValue').textContent = currentQuantity;
+        calculateDetailPrice();
+    });
+
+    document.getElementById('quantityMinus').addEventListener('click', () => {
+        if (currentQuantity > 1) {
+            currentQuantity--;
+            document.getElementById('quantityValue').textContent = currentQuantity;
+            calculateDetailPrice();
+        }
+    });
+
+    document.getElementById('addToOrderBtn').addEventListener('click', addToOrder);
+    document.getElementById('orderStatusBtn').addEventListener('click', toggleOrderPanel);
+    document.getElementById('orderPanelClose').addEventListener('click', toggleOrderPanel);
+    document.getElementById('checkoutBtn').addEventListener('click', checkout);
+}

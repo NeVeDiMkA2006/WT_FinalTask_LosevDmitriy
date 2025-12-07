@@ -82,3 +82,73 @@ function renderCoffeeCards(coffees) {
         grid.appendChild(card);
     });
 }
+
+function openDetail(coffee) {
+    currentCoffee = coffee;
+    currentSize = 'TALL';
+    currentMilk = 'REGULAR';
+    currentQuantity = 1;
+    currentExtras = { sugar: false, cinnamon: false };
+
+    const img = document.getElementById('detailImage');
+    img.src = coffee.image;
+    img.onerror = function () {
+        this.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22300%22%3E%3Crect fill=%22%23ddd%22 width=%22600%22 height=%22300%22/%3E%3C/svg%3E';
+    };
+
+    document.getElementById('detailTitle').textContent = coffee.name;
+    document.getElementById('detailDesc').textContent = coffee.description;
+
+    renderDetailOptions();
+    calculateDetailPrice();
+    document.getElementById('detailPage').classList.add('active');
+    document.body.classList.add('modal-open');
+}
+
+function renderDetailOptions() {
+    const sizeButtons = document.getElementById('sizeButtons');
+    sizeButtons.innerHTML = '';
+    sizes.forEach(size => {
+        const btn = document.createElement('button');
+        btn.className = 'size-btn' + (size.name === currentSize ? ' active' : '');
+        btn.dataset.size = size.name;
+        btn.textContent = `${size.label} (+${size.price} ₽)`;
+        sizeButtons.appendChild(btn);
+    });
+
+    const milkButtons = document.getElementById('milkButtons');
+    milkButtons.innerHTML = '';
+    milks.forEach(milk => {
+        const btn = document.createElement('button');
+        btn.className = 'milk-btn' + (milk.name === currentMilk ? ' active' : '');
+        btn.dataset.milk = milk.name;
+        btn.textContent = `${milk.label} (+${milk.price} ₽)`;
+        milkButtons.appendChild(btn);
+    });
+
+    document.getElementById('sugarCheckbox').checked = false;
+    document.getElementById('cinnamon').checked = false;
+    document.getElementById('quantityValue').textContent = 1;
+}
+
+function calculateDetailPrice() {
+    let price = currentCoffee.basePrice;
+
+    const sizeBtn = document.querySelector(`.size-btn[data-size="${currentSize}"]`);
+    if (sizeBtn) {
+        const m = sizeBtn.textContent.match(/\d+/);
+        if (m) price += parseInt(m[0]);
+    }
+
+    const milkBtn = document.querySelector(`.milk-btn[data-milk="${currentMilk}"]`);
+    if (milkBtn) {
+        const m = milkBtn.textContent.match(/\d+/);
+        if (m) price += parseInt(m[0]);
+    }
+
+    if (currentExtras.sugar) price += 20;
+    if (currentExtras.cinnamon) price += 30;
+
+    const total = price * currentQuantity;
+    document.getElementById('detailPrice').textContent = total;
+}

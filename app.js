@@ -165,7 +165,19 @@ function addToOrder() {
         price: parseInt(document.getElementById('detailPrice').textContent)
     };
 
-    order.push(orderItem);
+    const existingItem = order.find(item => 
+        item.coffeeId === orderItem.coffeeId &&
+        item.size === orderItem.size &&
+        item.milk === orderItem.milk &&
+        item.extras.sugar === orderItem.extras.sugar &&
+        item.extras.cinnamon === orderItem.extras.cinnamon
+    );
+    if (existingItem) {
+        existingItem.quantity += orderItem.quantity;
+    } else {
+        order.push(orderItem);
+    }
+
     saveOrderToStorage();
     updateOrderDisplay();
     closeDetail();

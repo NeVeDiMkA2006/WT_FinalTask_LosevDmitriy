@@ -184,6 +184,7 @@ main {
     overflow-x: auto;
     padding: 0.5rem 0;
     scroll-behavior: smooth;
+    justify-content: center;
 }
 
 .coffee-types-slider::-webkit-scrollbar {
@@ -223,7 +224,7 @@ main {
     grid-template-columns: repeat(auto-fill, minmax(280px, 280px));
     gap: 2rem;
     margin-bottom: 2rem;
-    justify-content: start;
+    justify-content: center;
 }
 
 .coffee-card {
